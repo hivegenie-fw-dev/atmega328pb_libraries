@@ -1,0 +1,13 @@
+This is an Arduino IDE compatible SPI driver for the NXP Semiconductors
+PCF2123 real-time clock.
+
+PCF2123 is an "ultra" low-power (sub-uA) RTC that supports a number of alarm
+features, as well as square wave clock signal output.
+
+It uses the LGPL-licensed Time library: https://github.com/PaulStoffregen/Time
+
+This library provides access to nearly all of the RTC's features. Datasheet:
+http://www.nxp.com/documents/data_sheet/PCF2123.pdf
+
+If you are planning to call PCF2123 from an interrupt handler, remember to
+register your interrupt with SPI.usingInterrupt().
