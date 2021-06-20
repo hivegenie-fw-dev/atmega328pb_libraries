@@ -13,6 +13,7 @@
 
 #define FIXED_POINT_FRACTIONAL_BITS 4
 
+
 Hx711::Hx711()
 {
 
@@ -99,7 +100,7 @@ uint32_t Hx711::getValue(const uint32_t timeout)
 		if ((millis() - startTime) > timeout)
 		{
 			Serial.print(F("HX timeout"));
-			return 0xFFFF;
+//			return 0xFFFF;
 		}
 	}
 

@@ -100,7 +100,7 @@ Fsm::Transition Fsm::create_transition(State* state_from, State* state_to,
 void Fsm::trigger(int event)
 {
 
-	Serial.println("trigger");
+	Serial.print("FSMT: "); Serial.println(event);
 #if 0
 	Serial.println(m_num_transitions);
 	Serial.println(m_initialized);
