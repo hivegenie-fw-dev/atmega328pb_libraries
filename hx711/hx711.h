@@ -43,6 +43,10 @@ public:
 	{
 		_scale = scale;
 	}
+	float getScale()
+	{
+		return _scale;
+	}
     uint16_t float_to_fixed(double input);
 
 private:

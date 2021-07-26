@@ -29,7 +29,6 @@ extern "C" {
 }
 #include "utility/twi2.h"
 #include "Wire2.h"
-
 namespace wire2
 {
 // Initialize Class Variables //////////////////////////////////////////////////
