@@ -1,1 +1,1 @@
-/home/benaka/work/hivegenie/hivegenierev4/firmware/internal/platform/../unitmain_src/pindefs.h
+../../../../internal/unitmain_src/pindefs.h
