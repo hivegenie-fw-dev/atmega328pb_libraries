@@ -32,7 +32,7 @@
 #include "ADXL345.h"
 #include "Wire2.h"
 
-#define ADXL345_DEVICE (0x53)    // ADXL345 device address
+static const uint8_t ADXL345_DEVICE = 0x53;    // ADXL345 device address
 #define ADXL345_TO_READ (6)      // num of bytes we are going to read each time (two bytes for each axis)
 
 ADXL345::ADXL345() {
@@ -616,24 +616,24 @@ bool ADXL345::getRegisterBit(byte regAdress, int bitPos) {
 // this can be used to manually to check the current configuration of the device
 void ADXL345::printAllRegister() {
     byte _b;
-    Serial.print("0x00: ");
+    Serial.print(F("0x00: "));
     readFrom(0x00, 1, &_b);
     print_byte(_b);
     Serial.println("");
     int i;
     for (i=29;i<=57;i++){
-        Serial.print("0x");
+        Serial.print(F("0x"));
         Serial.print(i, HEX);
-        Serial.print(": ");
+        Serial.print(F(": "));
         readFrom(i, 1, &_b);
         print_byte(_b);
-        Serial.println("");    
+        Serial.println(F(""));
     }
 }
 
 void print_byte(byte val){
     int i;
-    Serial.print("B");
+    Serial.print(F("B"));
     for(i=7; i>=0; i--){
         Serial.print(val >> i & 1, BIN);
     }

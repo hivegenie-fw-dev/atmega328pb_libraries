@@ -65,7 +65,7 @@ String GSM3ShieldV1BandManagement::getBand()
       return quectelStrings[i];
   }
 
-  Serial.print("Unrecognized modem answer:");
+  Serial.print(F("Unrecognized modem answer:"));
   Serial.println(modemResponse);
   
   return "";
