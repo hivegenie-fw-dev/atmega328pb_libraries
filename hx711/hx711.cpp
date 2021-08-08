@@ -66,7 +66,7 @@ uint32_t Hx711::calibrate(int32_t weight)
 {
 	delay(5000);
 	uint32_t average = averageValue(30);
-	Serial.print(F('C')); Serial.println(weight);
+	Serial.print('C'); Serial.println(weight);
 	Serial.println(average);
 	if (weight == 0)
 	{
