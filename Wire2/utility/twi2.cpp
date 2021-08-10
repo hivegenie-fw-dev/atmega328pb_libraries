@@ -19,6 +19,8 @@
   Modified 2012 by Todd Krein (todd@krein.org) to implement repeated starts
 */
 
+#ifdef TWCR1
+
 #include <math.h>
 #include <stdlib.h>
 #include <inttypes.h>
@@ -564,3 +566,4 @@ ISR(TWI1_vect)
 }
 
 }
+#endif

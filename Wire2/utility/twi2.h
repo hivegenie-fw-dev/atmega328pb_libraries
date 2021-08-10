@@ -17,10 +17,11 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+#ifdef TWCR1
 #ifndef twi2_h
 #define twi2_h
 
-  #include <inttypes.h>
+#include <inttypes.h>
 
   //#define ATMEGA8
 namespace wire2
@@ -54,3 +55,4 @@ namespace wire2
 }
 #endif
 
+#endif

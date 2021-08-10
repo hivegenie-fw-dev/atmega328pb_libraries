@@ -59,7 +59,9 @@ uint32_t Hx711::averageValue(byte times)
 		sum += getValue();
 	}
 
-	return sum / times;
+	sum /= times;
+	Serial.println(sum);
+	return sum;
 }
 
 uint32_t Hx711::calibrate(int32_t weight)

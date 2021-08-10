@@ -18,7 +18,7 @@
 
   Modified 2012 by Todd Krein (todd@krein.org) to implement repeated starts
 */
-#if 1
+
 #ifndef TwoWire2_h
 #define TwoWire2_h
 
@@ -27,11 +27,27 @@
 
 #define BUFFER_LENGTH 16
 
+#ifdef USE_SW_WIRE2
+#include "SoftWire.h"
+#endif
+
+
 // WIRE_HAS_END means Wire has end()
 #define WIRE_HAS_END 1
 
 namespace wire2
 {
+#ifdef USE_SW_WIRE2
+
+class TwoWire : public SoftWire
+{
+public:
+	   TwoWire()
+	   {
+
+	   }
+};
+#else
 class TwoWire : public Stream
 {
   private:
@@ -81,10 +97,12 @@ class TwoWire : public Stream
     using Print::write;
 };
 
+#endif
 }
+
 extern wire2::TwoWire Wire2;
 
-#endif
+
 
 
 #endif

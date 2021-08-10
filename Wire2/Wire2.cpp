@@ -20,7 +20,7 @@
   Modified 2012 by Todd Krein (todd@krein.org) to implement repeated starts
   Modified 2017 by Chuck Todd (ctodd@cableone.net) to correct Unconfigured Slave Mode reboot
 */
-#if 1
+
 extern "C" {
   #include <stdlib.h>
   #include <string.h>
@@ -31,6 +31,9 @@ extern "C" {
 #include "Wire2.h"
 namespace wire2
 {
+#ifdef USE_SW_WIRE2
+
+#else
 // Initialize Class Variables //////////////////////////////////////////////////
 
 uint8_t TwoWire::rxBuffer[BUFFER_LENGTH];
@@ -327,9 +330,10 @@ void TwoWire::onRequest( void (*function)(void) )
 {
   user_onRequest = function;
 }
+#endif
 
 // Preinstantiate Objects //////////////////////////////////////////////////////
 }
+
 wire2::TwoWire Wire2 = wire2::TwoWire();
 
-#endif
