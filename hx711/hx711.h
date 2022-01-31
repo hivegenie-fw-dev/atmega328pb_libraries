@@ -27,8 +27,9 @@ public:
 
 	uint32_t getValue(const uint32_t timeout = 3000);
 	uint32_t averageValue(byte times = 2); // 32
-	float getGram();
-	uint32_t calibrate(int32_t weight);
+	float getGram(bool enableAcExcitation = true);
+	uint32_t calibrate(int32_t weight, bool enableAcExcitation = true);
+
 
 	void setOffset(uint32_t offset)
 	{
@@ -52,6 +53,26 @@ public:
 private:
 	long _offset;
 	float _scale;
+
+	inline void powerOn()
+	{
+		PORTB |= (1 << PIN7);
+	}
+
+	inline void powerOff()
+	{
+		PORTB &= ~(1 << PIN7);
+	}
+
+	inline void posExcitation()
+	{
+		PORTB |= (1 << PIN6);
+	}
+
+	inline void negExcitation()
+	{
+		PORTB &= ~(1 << PIN7);
+	}
 };
 
 #endif /* HX711_H_ */

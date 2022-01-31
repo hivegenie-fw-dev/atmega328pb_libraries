@@ -5,7 +5,6 @@
  *      Author: agu
  *	modified by Niklas Merz
  */
-#if 1
 #include "hx711.h"
 #include <stdlib.h>
 #include "eeprom_content.hpp"
@@ -26,6 +25,9 @@ Hx711::~Hx711()
 
 void Hx711::init()
 {
+	DDRB |=  ((1 << PIN7) | (1 << PIN6));
+	powerOn();
+	posExcitation();
 	pinMode(HX711_CLK, OUTPUT);
 	pinMode(HX711_DT, INPUT);
 
@@ -64,24 +66,43 @@ uint32_t Hx711::averageValue(byte times)
 	return sum;
 }
 
-uint32_t Hx711::calibrate(int32_t weight)
+uint32_t Hx711::calibrate(int32_t weight, bool enableAcExcitation)
 {
+	uint32_t valp, valn;
+
+	powerOn();
 	delay(5000);
-	uint32_t average = averageValue(30);
+	if (enableAcExcitation)
+	{
+		posExcitation();
+		delay(10);
+		valp = averageValue(15);
+
+		negExcitation();
+		delay(10);
+		valn = averageValue(15);
+	}
+	else
+	{
+		valn = averageValue(15) << 1;
+		valp = 0;
+	}
+	powerOff();
+	uint32_t val = (valn - valp)>>1;
 	Serial.print('C'); Serial.println(weight);
-	Serial.println(average);
+	Serial.println(val);
 	if (weight == 0)
 	{
-		eeprom_write_dword(&calibationOffsetEeprom, average);
-		setOffset(average);
-		Serial.println(average);
+		eeprom_write_dword(&calibationOffsetEeprom, val);
+		setOffset(val);
+		Serial.println(val);
 //		EEPROM.put<uint32_t>(100, average);
 //		uint32_t marker = 0xC0FFEE0C;
 //		EEPROM.put<uint32_t>(108, marker);
 	}
 	else
 	{
-	    float slope = ((double)((double)average - (double)getOffset())/(double)weight);
+	    float slope = ((double)((double)val - (double)getOffset())/(double)weight);
 
 		eeprom_write_float(&calibationSlopeEeprom, slope);
 		Serial.println(slope);
@@ -90,7 +111,7 @@ uint32_t Hx711::calibrate(int32_t weight)
 //		uint32_t marker = 0xC0FFEE0D;
 //		EEPROM.put<uint32_t>(108, marker);
 	}
-	return average;
+	return val;
 }
 
 uint32_t Hx711::getValue(const uint32_t timeout)
@@ -124,9 +145,29 @@ uint32_t Hx711::getValue(const uint32_t timeout)
 			| (uint32_t) data[0];
 }
 
-float Hx711::getGram()
+float Hx711::getGram(bool enableAcExcitation)
 {
-	long val = (averageValue(15) - _offset);
+	uint32_t valp, valn;
+	powerOn();
+
+	if (enableAcExcitation)
+	{
+		posExcitation();
+		delay(10);
+		valp = averageValue(15);
+
+		negExcitation();
+		delay(10);
+		valn = averageValue(15);
+	}
+	else
+	{
+		valn = averageValue(15)<<1;
+		valp = 0;
+	}
+
+	powerOff();
+	long val = (((valn - valp)>>1) - _offset);
 	return (float) val / _scale;
 }
 
@@ -134,5 +175,3 @@ uint16_t Hx711::float_to_fixed(double input)
 {
     return (uint16_t)(input * (1 << FIXED_POINT_FRACTIONAL_BITS));
 }
-
-#endif
